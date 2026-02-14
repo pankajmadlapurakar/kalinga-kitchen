@@ -102,19 +102,19 @@ export class MenuComponent {
     {
       id: 'appetizers-piece', title: 'By The Piece', icon: 'restaurant_menu', type: 'piece',
       items: [
-        { name: 'Aloo Chop', pricing: { price: 1.5, unit: 'ea' }, image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?q=80&w=200', description: 'Spiced potato fritters' },
-        { name: 'Egg Chop', pricing: { price: 2, unit: 'ea' }, image: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?q=80&w=200', description: 'Deep fried egg cutlet' },
-        { name: 'Vegetable Chop', pricing: { price: 4, unit: '2 pcs' }, image: 'https://images.unsplash.com/photo-1625398407796-82650a8c135f?q=80&w=200', description: 'Beetroot & peanut cutlet' },
-         { name: 'Green Matar Kachuri', pricing: { price: 4, unit: '2 pcs' }, image: 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?q=80&w=200', description: 'Peas stuffed bread' },
-          { name: 'Posta Bara', pricing: { price: 5, unit: '2 pcs' }, image: 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?q=80&w=200', description: 'Peas stuffed bread' },
-        { name: 'Mutton Chop', pricing: { price: 7, unit: '2 pcs' }, image: 'https://images.unsplash.com/photo-1615557960916-5f4791effe9d?q=80&w=200', description: 'Spiced minced mutton' },
-        { name: 'Chicken Cutlets', pricing: { price: 6, unit: '3 pcs' }, image: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=200' },
-        { name: 'Chicken 65 Puffs', pricing: { price: 5, unit: '2 pcs' }, image: 'https://images.unsplash.com/photo-1589302168068-964664d93dc0?q=80&w=200' },
-        { name: 'Fish Cutlets', pricing: { price: 5, unit: '5 pcs' }, image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?q=80&w=200' },
-        { name: 'Urad dal Vada', pricing: { price: 10, unit: '10 pcs' }, image: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=200' },
-        { name: 'Masala Vada', pricing: { price: 5, unit: '5 pcs' }, image: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?q=80&w=200' },
-        { name: 'Dahi Vada', pricing: { price: 5, unit: '5 pcs' }, image: 'https://images.unsplash.com/photo-1603569283847-aa295f0d016a?q=80&w=200' },
-      { name: 'Chicken Momo', pricing: { price: 10, unit: '10 pcs' }, image: 'https://images.unsplash.com/photo-1603569283847-aa295f0d016a?q=80&w=200' }
+        { name: 'Aloo Chop', pricing: { price: 1.5, unit: 'ea' }, image: 'assets/aloo_chop.webp', description: 'Spiced potato fritters' },
+        { name: 'Egg Chop', pricing: { price: 2, unit: 'ea' }, image: 'assets/egg_chop.webp', description: 'Deep fried egg cutlet' },
+        { name: 'Vegetable Chop', pricing: { price: 4, unit: '2 pcs' }, image: 'assets/vegetable_chop.webp', description: 'Beetroot & peanut cutlet' },
+         { name: 'Green Matar Kachuri', pricing: { price: 4, unit: '2 pcs' }, image: 'assets/green-matar-kachuri.webp', description: 'Peas stuffed bread' },
+          { name: 'Posta Bara', pricing: { price: 5, unit: '2 pcs' }, image: 'assets/posta-bara.webp', description: 'Peas stuffed bread' },
+        { name: 'Mutton Chop', pricing: { price: 7, unit: '2 pcs' }, image: 'assets/mutton-chop.webp', description: 'Spiced minced mutton' },
+        { name: 'Chicken Cutlets', pricing: { price: 6, unit: '3 pcs' }, image: 'assets/chicken-cutlets.webp' },
+        { name: 'Chicken 65 Puffs', pricing: { price: 5, unit: '2 pcs' }, image: 'assets/chicken-65-puffs.webp' },
+        { name: 'Fish Cutlets', pricing: { price: 5, unit: '5 pcs' }, image: 'assets/fish-cutlets.webp' },
+        { name: 'Urad dal Vada', pricing: { price: 10, unit: '10 pcs' }, image: 'assets/urad-dal-vada.webp' },
+        { name: 'Masala Vada', pricing: { price: 5, unit: '5 pcs' }, image: 'assets/masala-vada.webp' },
+        { name: 'Dahi Vada', pricing: { price: 5, unit: '5 pcs' }, image: 'assets/dahi-vada.webp' },
+      { name: 'Chicken Momo', pricing: { price: 10, unit: '10 pcs' }, image: 'assets/chicken-momo.webp' }
       ]
     },
     {

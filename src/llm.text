@@ -1,0 +1,40 @@
+# Project Context: Ipsa's Kalinga Kitchen
+
+## Project Overview
+This is a mobile-first web application for a catering and restaurant business called "Ipsa's Kalinga Kitchen". The app currently serves as a digital menu and portfolio to showcase authentic Odia and Indian cuisine.
+
+## Technical Stack
+* **Framework:** Angular 17+ (Standalone Components, Signals, New Control Flow `@if`, `@for`).
+* **Styling:** Tailwind CSS (Mobile-first utility classes).
+* **Backend/Data:** Firebase Firestore (for dynamic menu data and "Today's Special").
+* **Hosting:** Firebase Hosting.
+
+## Current Functionality (Phase 1 - MVP)
+* **Navigation:** Sticky top navbar with logo; mobile hamburger menu with slide-down navigation.
+* **Home Page:**
+    * Hero section with background image and call-to-action.
+    * "Today's Special" section (dynamically fetched from Firestore).
+    * Services/Specializations (Puja Food, Wedding Catering, etc.).
+* **Menu Page:**
+    * Sticky horizontal category bar (scrollable on mobile).
+    * Categorized menu listing (Appetizers, Entrees, etc.).
+    * **Complex Pricing:** Supports varied pricing models:
+        * Sized portions (Small/Medium/Large).
+        * Per-piece pricing (e.g., "$1.50 each").
+        * "Market Price" / "DM for Pricing" items.
+    * **Display Only:** No cart or checkout functionality yet. Users call to order.
+
+## Future Roadmap (Phase 2 - Planned)
+* **User Accounts:** Firebase Authentication (Google/Phone login).
+* **E-Commerce:**
+    * "Add to Cart" functionality.
+    * Order summary/Cart page.
+* **Payments:** Integration with Stripe or similar provider for online checkout.
+* **Admin Dashboard:** A simple interface to update the "Today's Special" and menu prices without code changes.
+
+## Design Constraints
+* **Mobile-First:** All layouts must look perfect on mobile screens first, then scale up to desktop.
+* **Brand Colors:**
+    * Primary Orange: #ee8c2b
+    * Deep Red: #8B0000
+    * Backgrounds: Off-white (#f8f7f6) for light mode.

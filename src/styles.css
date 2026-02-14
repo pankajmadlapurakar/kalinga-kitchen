@@ -1,1 +1,35 @@
-/* You can add global styles to this file, and also import other style files */
+/* Import Tailwind v4 */
+@import "tailwindcss";
+
+/* Define your Custom Theme directly here */
+@theme {
+  --color-primary: #ee8c2b;
+  --color-background-light: #f8f7f6;
+  --color-background-dark: #221910;
+  --color-deep-red: #8B0000;
+  --color-turmeric: #f4a261;
+  
+  --font-display: "Work Sans", sans-serif;
+}
+
+/* Global Styles */
+body {
+    font-family: "Work Sans", sans-serif;
+    /* Use standard CSS variables instead of @apply to prevent build errors */
+    background-color: var(--color-background-light); 
+    color: #292524; /* equivalent to text-stone-800 */
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: var(--color-background-dark);
+        color: #e7e5e4; /* equivalent to text-stone-200 */
+    }
+}
+
+/* Custom Utilities */
+.hero-overlay {
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.4));
+    pointer-events: none;
+}

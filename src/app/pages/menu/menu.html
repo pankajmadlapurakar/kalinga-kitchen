@@ -1,0 +1,274 @@
+
+<main class="min-h-screen bg-stone-50 pb-12">
+
+  <section class="relative h-64 w-full overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-t from-stone-900/80 via-stone-900/20 to-transparent z-10"></div>
+    <img src="https://images.unsplash.com/photo-1596797038530-2c107229654b?q=80&w=1000" 
+         alt="Indian Spices" 
+         class="w-full h-full object-cover">
+    
+    <div class="absolute inset-0 z-20 flex flex-col items-center justify-end pb-8 text-center px-6">
+      <h1 class="text-3xl md:text-5xl font-bold text-white mb-2 shadow-sm">Our Catering Menu</h1>
+      <p class="text-primary font-medium text-sm tracking-widest uppercase bg-black/40 px-3 py-1 rounded backdrop-blur-sm border border-white/10">
+        Authentic Odia Flavors
+      </p>
+    </div>
+  </section>
+
+  <nav class="sticky top-20 z-30 bg-white/95 backdrop-blur-md border-b border-stone-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 overflow-x-auto hide-scrollbar py-3">
+      <div class="flex gap-4 md:gap-8 min-w-max">
+        @for (cat of menuCategories(); track cat.id) {
+          <button (click)="scrollTo(cat.id)" 
+                  class="flex items-center gap-2 px-4 py-2 rounded-full border border-stone-200 bg-stone-50 hover:bg-primary hover:text-white hover:border-primary transition-all group">
+            <span class="material-icons text-stone-400 group-hover:text-white text-lg">{{ cat.icon }}</span>
+            <span class="text-xs md:text-sm font-bold uppercase tracking-wider text-stone-600 group-hover:text-white">
+              {{ cat.title.split(' ')[0] }}
+            </span>
+          </button>
+        }
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-4xl mx-auto px-4 mt-8 space-y-12">
+    
+    @for (cat of menuCategories(); track cat.id) {
+      <section [id]="cat.id" class="scroll-mt-48"> <div class="flex items-center justify-between mb-6 border-b border-stone-200 pb-2">
+          <div class="flex items-center gap-3">
+            <span class="material-icons text-primary text-3xl">{{ cat.icon }}</span>
+            <h2 class="text-2xl md:text-3xl font-bold text-stone-800">{{ cat.title }}</h2>
+          </div>
+          @if (cat.id === 'puja') {
+             <span class="text-green-700 text-xs font-bold bg-green-100 px-3 py-1 rounded-full">No Onion/Garlic</span>
+          }
+        </div>
+
+        @if (cat.type === 'piece') {
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            @for (item of cat.items; track item.name) {
+              <div class="bg-white border border-stone-200 p-4 rounded-xl flex items-center gap-4 hover:shadow-lg transition-all">
+                <div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 bg-stone-100">
+                  <img [src]="item.image || 'assets/placeholder.jpg'" [alt]="item.name" class="w-full h-full object-cover">
+                </div>
+                <div class="flex-grow">
+                  <div class="flex justify-between items-start mb-1">
+                    <h3 class="font-bold text-lg text-stone-800 leading-tight">{{ item.name }}</h3>
+                    <span class="bg-primary text-white font-bold px-2 py-1 rounded text-sm whitespace-nowrap shadow-sm">
+                      ${{ item.pricing?.price }}<span class="text-[10px] opacity-80">/{{ item.pricing?.unit }}</span>
+                    </span>
+                  </div>
+                  <p class="text-xs text-stone-500 line-clamp-2">{{ item.description }}</p>
+                </div>
+              </div>
+            }
+          </div>
+        }
+
+        @if (cat.type === 'sized') {
+          <div class="bg-white rounded-xl border border-stone-200 shadow-sm overflow-hidden">
+            <div class="grid grid-cols-4 bg-stone-100 text-stone-600 text-xs font-bold uppercase tracking-wider border-b border-stone-200">
+              <div class="p-4 col-span-1">Item</div>
+              <div class="p-4 text-center">Small</div>
+              <div class="p-4 text-center bg-stone-200/50">Medium</div>
+              <div class="p-4 text-center">Large</div>
+            </div>
+            
+            <div class="divide-y divide-stone-100">
+              @for (item of cat.items; track item.name) {
+                <div class="grid grid-cols-4 items-center hover:bg-stone-50 transition-colors">
+                  <div class="p-4 col-span-1 font-bold text-stone-700 text-sm">{{ item.name }}</div>
+                  <div class="p-4 text-center text-stone-500 font-medium">${{ item.pricing?.s }}</div>
+                  <div class="p-4 text-center text-primary font-bold bg-stone-50 border-x border-stone-100 shadow-inner">${{ item.pricing?.m }}</div>
+                  <div class="p-4 text-center text-stone-500 font-medium">${{ item.pricing?.l }}</div>
+                </div>
+              }
+            </div>
+          </div>
+        }
+
+        @if (cat.type === 'list') {
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            @for (item of cat.items; track item.name) {
+              <div class="bg-white p-4 rounded-xl border border-stone-200 flex justify-between items-center shadow-sm hover:border-primary/50 transition-colors">
+                <div>
+                  <h4 class="font-bold text-stone-800">{{ item.name }}</h4>
+                  <p class="text-xs text-stone-500 italic">{{ item.description }}</p>
+                </div>
+                <span class="text-primary text-xs font-bold bg-primary/10 px-3 py-1 rounded-full border border-primary/20">Ask Price</span>
+              </div>
+            }
+          </div>
+        }
+
+      </section>
+    }
+  </div>
+  
+  <div class="h-20 md:h-0"></div>
+
+</main>
+
+
+
+
+
+
+
+
+<!-- <header class="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-stone-200 shadow-sm">
+  <div class="max-w-xl mx-auto px-4 h-16 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white shadow-sm">
+        <span class="material-icons text-lg">restaurant</span>
+      </div>
+      <span class="font-bold text-lg tracking-tight uppercase text-stone-800">Kalinga Kitchen</span>
+    </div>
+    <a href="tel:571-418-9365" class="p-2 text-primary hover:bg-primary/10 rounded-full transition-colors">
+      <span class="material-icons">call</span>
+    </a>
+  </div>
+</header>
+
+<main class="max-w-xl mx-auto pt-16 pb-24 bg-stone-50 min-h-screen">
+
+  <section class="relative h-64 w-full overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-t from-stone-900/80 via-stone-900/20 to-transparent z-10"></div>
+    <img src="https://images.unsplash.com/photo-1596797038530-2c107229654b?q=80&w=1000" 
+         alt="Indian Spices" 
+         class="w-full h-full object-cover">
+    
+    <div class="absolute inset-0 z-20 flex flex-col items-center justify-end pb-8 text-center px-6">
+      <h1 class="text-3xl font-bold text-white mb-2 shadow-sm">Ipsa's Kalinga Kitchen</h1>
+      <p class="text-primary font-medium text-sm tracking-widest uppercase bg-black/40 px-3 py-1 rounded backdrop-blur-sm border border-white/10">
+        Authentic Odia Catering
+      </p>
+    </div>
+  </section>
+
+  <nav class="sticky top-16 z-40 bg-white border-b border-stone-200 shadow-md">
+    <div class="flex overflow-x-auto hide-scrollbar py-3 px-4 gap-6 items-center">
+      @for (cat of menuCategories(); track cat.id) {
+        <button (click)="scrollTo(cat.id)" class="flex flex-col items-center gap-1 flex-shrink-0 group min-w-[60px]">
+          <div class="w-12 h-12 rounded-full bg-stone-100 border border-stone-200 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all shadow-sm">
+            <span class="material-icons text-stone-500 group-hover:text-white">{{ cat.icon }}</span>
+          </div>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-stone-500 group-hover:text-primary whitespace-nowrap">
+            {{ cat.title.split(' ')[0] }}
+          </span>
+        </button>
+      }
+    </div>
+  </nav>
+
+  <div class="space-y-2">
+    @for (cat of menuCategories(); track cat.id) {
+      <section [id]="cat.id" class="px-4 py-8 bg-white border-b border-stone-100 scroll-mt-32">
+        
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-2xl font-bold border-l-4 border-primary pl-3 text-stone-800">{{ cat.title }}</h2>
+          @if (cat.id === 'appetizers-piece') {
+            <span class="text-stone-400 text-xs italic bg-stone-100 px-2 py-1 rounded">Min order 25 pcs</span>
+          }
+          @if (cat.id === 'puja') {
+             <span class="text-green-600 text-xs font-bold bg-green-50 px-2 py-1 rounded border border-green-200">No Onion/Garlic</span>
+          }
+        </div>
+
+        @if (cat.type === 'piece') {
+          <div class="grid grid-cols-1 gap-4">
+            @for (item of cat.items; track item.name) {
+              <div class="bg-white border border-stone-200 p-3 rounded-xl flex items-center gap-4 hover:shadow-md hover:border-primary/30 transition-all">
+                <div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 bg-stone-100">
+                  <img [src]="item.image || 'assets/placeholder.jpg'" [alt]="item.name" class="w-full h-full object-cover">
+                </div>
+                <div class="flex-grow">
+                  <div class="flex justify-between items-start">
+                    <h3 class="font-bold text-lg text-stone-800 leading-tight">{{ item.name }}</h3>
+                    <span class="bg-primary/10 text-primary border border-primary/20 font-bold px-2 py-0.5 rounded text-sm whitespace-nowrap">
+                      ${{ item.pricing?.price }} <span class="text-xs">{{ item.pricing?.unit }}</span>
+                    </span>
+                  </div>
+                  <p class="text-xs text-stone-500 mt-1">{{ item.description }}</p>
+                </div>
+              </div>
+            }
+          </div>
+        }
+
+        @if (cat.type === 'sized') {
+          <div class="overflow-hidden rounded-xl border border-stone-200 shadow-sm">
+            <table class="w-full text-left border-collapse">
+              <thead class="bg-stone-100 text-stone-600 uppercase text-xs tracking-widest font-bold">
+                <tr>
+                  <th class="p-3">Item Name</th>
+                  <th class="p-3 text-center bg-stone-50">Sm</th>
+                  <th class="p-3 text-center">Med</th>
+                  <th class="p-3 text-center bg-stone-50">Lg</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-stone-100 bg-white">
+                @for (item of cat.items; track item.name) {
+                  <tr class="hover:bg-stone-50 transition-colors">
+                    <td class="p-3 font-bold text-stone-700 text-sm">{{ item.name }}</td>
+                    <td class="p-3 text-center font-bold text-stone-500 text-sm bg-stone-50/50">${{ item.pricing?.s }}</td>
+                    <td class="p-3 text-center font-bold text-primary text-sm shadow-sm border-x border-stone-50">${{ item.pricing?.m }}</td>
+                    <td class="p-3 text-center font-bold text-stone-500 text-sm bg-stone-50/50">${{ item.pricing?.l }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+
+        @if (cat.type === 'list') {
+          <div class="bg-stone-50 rounded-xl p-2 border border-stone-200">
+            @for (item of cat.items; track item.name) {
+              <div class="flex justify-between items-center bg-white p-3 mb-2 last:mb-0 rounded-lg shadow-sm">
+                <div>
+                  <h4 class="font-bold text-stone-800 text-sm">{{ item.name }}</h4>
+                  <p class="text-xs text-stone-500 italic">{{ item.description }}</p>
+                </div>
+                <span class="text-primary text-xs font-bold bg-primary/5 px-2 py-1 rounded border border-primary/10 whitespace-nowrap">Ask Price</span>
+              </div>
+            }
+          </div>
+        }
+
+      </section>
+    }
+  </div>
+
+  <section class="px-4 py-8">
+    <div class="bg-deep-red p-8 rounded-2xl text-center shadow-lg relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+      <h3 class="text-xl font-bold text-white mb-2 relative z-10">Planning an Event?</h3>
+      <p class="text-white/90 text-sm mb-6 relative z-10">We specialize in Weddings, Pujas & Social Gatherings.</p>
+      <a href="tel:571-418-9365" class="inline-block w-full bg-white text-deep-red font-bold py-3 rounded-xl shadow hover:bg-stone-100 transition-colors uppercase tracking-widest text-sm relative z-10">
+        Inquire Now
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="fixed bottom-0 w-full z-50 bg-white/90 backdrop-blur-md border-t border-stone-200">
+  <div class="max-w-xl mx-auto px-6 h-16 flex items-center justify-between">
+    <div class="flex flex-col items-center gap-1 text-stone-400 hover:text-primary transition-colors cursor-pointer">
+      <span class="material-icons">home</span>
+      <span class="text-[10px] font-bold">HOME</span>
+    </div>
+    <div class="flex flex-col items-center gap-1 text-primary cursor-pointer">
+      <span class="material-icons">menu_book</span>
+      <span class="text-[10px] font-bold">MENU</span>
+    </div>
+    <div class="flex flex-col items-center gap-1 text-stone-400 hover:text-primary transition-colors cursor-pointer">
+      <span class="material-icons">photo_library</span>
+      <span class="text-[10px] font-bold">GALLERY</span>
+    </div>
+    <a href="tel:571-418-9365" class="flex flex-col items-center gap-1 text-stone-400 hover:text-primary transition-colors cursor-pointer">
+      <span class="material-icons">phone</span>
+      <span class="text-[10px] font-bold">CALL</span>
+    </a>
+  </div>
+</footer> -->

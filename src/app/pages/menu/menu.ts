@@ -1,5 +1,7 @@
 import { Component, signal, inject } from '@angular/core';
 import { CommonModule, ViewportScroller } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MenuService, DailySpecial } from '../../services/menu';
 
 interface Pricing {
   s?: number; m?: number; l?: number;
@@ -24,7 +26,7 @@ interface MenuCategory {
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './menu.html',
   styles: [`
     .hide-scrollbar::-webkit-scrollbar { display: none; }
@@ -34,10 +36,49 @@ interface MenuCategory {
 })
 export class MenuComponent {
   private scroller = inject(ViewportScroller);
+  private menuService = inject(MenuService);
+
+  todaysSpecials = this.menuService.todaysSpecials;
+  isEditing = signal(false);
+  editingSpecials: DailySpecial[] = [];
 
   scrollTo(id: string) {
     this.scroller.setOffset([0, 180]);
     this.scroller.scrollToAnchor(id);
+  }
+
+  toggleEdit() {
+    if (!this.isEditing()) {
+      const password = prompt('Enter Admin Password:');
+      if (password !== 'kalinga@123') {
+        alert('Invalid Password');
+        return;
+      }
+    }
+
+    this.isEditing.update(v => !v);
+    if (this.isEditing()) {
+      this.editingSpecials = JSON.parse(JSON.stringify(this.todaysSpecials()));
+    }
+  }
+
+  addSpecial() {
+    this.editingSpecials.push({
+      title: 'New Special',
+      description: 'Description',
+      price: 0,
+      imageUrl: '',
+      available: true
+    });
+  }
+
+  removeSpecial(index: number) {
+    this.editingSpecials.splice(index, 1);
+  }
+
+  saveSpecials() {
+    this.menuService.updateSpecials(this.editingSpecials);
+    this.isEditing.set(false);
   }
 
   // COMPLETE MENU DATA FROM PDF
@@ -63,15 +104,17 @@ export class MenuComponent {
       items: [
         { name: 'Aloo Chop', pricing: { price: 1.5, unit: 'ea' }, image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?q=80&w=200', description: 'Spiced potato fritters' },
         { name: 'Egg Chop', pricing: { price: 2, unit: 'ea' }, image: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?q=80&w=200', description: 'Deep fried egg cutlet' },
-        { name: 'Vegetable Chop', pricing: { price: 4, unit: '2 pcs' }, image: 'https://images.unsplash.com/photo-1605888969139-42eca627c24f?q=80&w=200', description: 'Beetroot & peanut cutlet' },
-        { name: 'Green Matar Kachuri', pricing: { price: 4, unit: '2 pcs' }, image: 'https://images.unsplash.com/photo-1606491956689-2ea28c674675?q=80&w=200', description: 'Peas stuffed bread' },
+        { name: 'Vegetable Chop', pricing: { price: 4, unit: '2 pcs' }, image: 'https://images.unsplash.com/photo-1625398407796-82650a8c135f?q=80&w=200', description: 'Beetroot & peanut cutlet' },
+         { name: 'Green Matar Kachuri', pricing: { price: 4, unit: '2 pcs' }, image: 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?q=80&w=200', description: 'Peas stuffed bread' },
+          { name: 'Posta Bara', pricing: { price: 5, unit: '2 pcs' }, image: 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?q=80&w=200', description: 'Peas stuffed bread' },
         { name: 'Mutton Chop', pricing: { price: 7, unit: '2 pcs' }, image: 'https://images.unsplash.com/photo-1615557960916-5f4791effe9d?q=80&w=200', description: 'Spiced minced mutton' },
         { name: 'Chicken Cutlets', pricing: { price: 6, unit: '3 pcs' }, image: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=200' },
         { name: 'Chicken 65 Puffs', pricing: { price: 5, unit: '2 pcs' }, image: 'https://images.unsplash.com/photo-1589302168068-964664d93dc0?q=80&w=200' },
-        { name: 'Fish Cutlets', pricing: { price: 6, unit: '3 pcs' }, image: 'https://images.unsplash.com/photo-1535568846380-4927df8dd82d?q=80&w=200' },
-        { name: 'Chicken Momo', pricing: { price: 10, unit: '10 pcs' }, image: 'https://images.unsplash.com/photo-1625223007374-dbd69b66c7ce?q=80&w=200' },
-        { name: 'Dahi Vada', pricing: { price: 5, unit: '5 pcs' }, image: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?q=80&w=200' },
-        { name: 'Vadapav', pricing: { price: 5, unit: '2 pcs' }, image: 'https://images.unsplash.com/photo-1603569283847-aa295f0d016a?q=80&w=200' }
+        { name: 'Fish Cutlets', pricing: { price: 5, unit: '5 pcs' }, image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?q=80&w=200' },
+        { name: 'Urad dal Vada', pricing: { price: 10, unit: '10 pcs' }, image: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=200' },
+        { name: 'Masala Vada', pricing: { price: 5, unit: '5 pcs' }, image: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?q=80&w=200' },
+        { name: 'Dahi Vada', pricing: { price: 5, unit: '5 pcs' }, image: 'https://images.unsplash.com/photo-1603569283847-aa295f0d016a?q=80&w=200' },
+      { name: 'Chicken Momo', pricing: { price: 10, unit: '10 pcs' }, image: 'https://images.unsplash.com/photo-1603569283847-aa295f0d016a?q=80&w=200' }
       ]
     },
     {
@@ -83,11 +126,12 @@ export class MenuComponent {
         { name: 'Parwal Curry', pricing: { s: 60, m: 100, l: 140 } },
         { name: 'Jackfruit Curry', pricing: { s: 60, m: 100, l: 140 } },
         { name: 'Okra Masala', pricing: { s: 60, m: 100, l: 140 } },
-        { name: 'Chole', pricing: { s: 50, m: 90, l: 130 } },
+        { name: 'Chole', pricing: { s: 50, m: 80, l: 110 } },
         { name: 'Ghanta Tarkari', pricing: { s: 60, m: 100, l: 140 } },
-        { name: 'Dal Makhni', pricing: { s: 50, m: 90, l: 130 } },
-        { name: 'Aloo Dum', pricing: { s: 50, m: 90, l: 130 } },
+        { name: 'Dal Makhni', pricing: { s: 50, m: 80, l: 120 } },
+        { name: 'Aloo Dum', pricing: { s: 50, m: 80, l: 120 } },
         { name: 'Butter Paneer', pricing: { s: 60, m: 100, l: 140 } },
+        { name: 'utter Paneer', pricing: { s: 60, m: 100, l: 140 } },
         { name: 'Palak Paneer', pricing: { s: 60, m: 100, l: 140 } }
       ]
     },
@@ -95,11 +139,13 @@ export class MenuComponent {
       id: 'non-veg', title: 'Non-Veg', icon: 'kebab_dining', type: 'sized',
       items: [
         { name: 'Fish Curry (Rohu)', pricing: { s: 70, m: 110, l: 150 } },
+        { name: 'Fish Masala', pricing: { s: 70, m: 110, l: 150 } },
         { name: 'Shrimp Malai Curry', pricing: { s: 70, m: 110, l: 150 } },
         { name: 'Chicken Curry', pricing: { s: 60, m: 100, l: 140 } },
         { name: 'Chicken Masala', pricing: { s: 70, m: 110, l: 150 } },
         { name: 'Palak Chicken', pricing: { s: 70, m: 110, l: 150 } },
         { name: 'Chicken Ghee Roast', pricing: { s: 70, m: 110, l: 150 } },
+        { name: 'Karahi Chicken', pricing: { s: 70, m: 110, l: 150 } },
         { name: 'Chicken Butter Masala', pricing: { s: 80, m: 130, l: 180 } },
         { name: 'Goat Curry', pricing: { s: 80, m: 130, l: 180 } },
         { name: 'Saag Goat', pricing: { s: 80, m: 130, l: 180 } }
@@ -108,49 +154,79 @@ export class MenuComponent {
     {
       id: 'rice', title: 'Biriyani & Rice', icon: 'rice_bowl', type: 'list',
       items: [
-        { name: 'Chicken / Mutton Biriyani', description: 'Aromatic Dum Biriyani' },
-        { name: 'Veg / Jackfruit Biriyani', description: 'Vegetarian Special' },
+        { name: 'Chicken Biriyani', description: 'Aromatic Dum Biriyani' },
+        { name:  'Mutton Biriyani', description: 'Aromatic Dum Biriyani' },
+        { name: 'Veg Biriyani', description: 'Vegetarian Special' },
         { name: 'Veg Keema Biriyani', description: 'Minced Veggie Delight' },
-        { name: 'Mutton / Veg Pulao', description: 'Rich Pulao' },
+        { name: 'Jackfruit Biriyani', description: 'Vegetarian Special' },
+        { name: 'Mutton Pulao', description: 'Rich Pulao' },
+         { name: 'Veg Pulao', description: 'Rich Pulao' },
         { name: 'Fried Rice (Veg/Chicken)', description: 'Indo-Chinese Style' },
-        { name: 'Jeera / Lemon Rice', description: 'Flavored Rice Sides' }
+        { name: 'Jeera Rice', description: 'Flavored Rice Sides' },
+        { name: 'Lemon Rice', description: 'Flavored Rice Sides' }
       ]
     },
     {
       id: 'puja', title: 'Puja Food', icon: 'spa', type: 'list',
       items: [
+               { name: 'Ghanta Tarkari', description: 'Mixed Veggies' },
+        { name: 'Mix Veg', description: 'Mixed Veggies' },
+               { name: 'Parval Curry', description: 'Mixed Veggies' },
+                    { name: 'Dhokar Dalna', description: 'Lentil Cakes in Curry' },
+                             { name: 'Sukato', description: 'Mixed Veggies' },
         { name: 'Dalma', description: 'Lentils with Veggies (No Onion/Garlic)' },
-        { name: 'Ghanta Tarkari', description: 'Mixed Veggies' },
-        { name: 'Dhokar Dalna', description: 'Lentil Cakes in Curry' },
+        { name: 'Chhole', description: 'Lentils with Veggies (No Onion/Garlic)' },
+ 
+   
         { name: 'Chenna Tarkari', description: 'Cheese Curd Curry' },
-        { name: 'Vendi / Amba / Tomato Khatta', description: 'Sweet & Sour Chutneys' }
+        { name: 'Vendi / Amba / Tomato Khajuri Khatta', description: 'Sweet & Sour Chutneys' }
       ]
     },
-    {
+    {  
       id: 'eastern', title: 'Eastern Special', icon: 'phishing', type: 'list',
       items: [
-        { name: 'Macha Besara', description: 'Fish in Mustard Gravy (Rohu/Mrigal)' },
-        { name: 'Shorse Illishi', description: 'Hilsa in Mustard' },
-        { name: 'Chingri Malai Curry', description: 'Prawns in Coconut Milk' },
-        { name: 'Poi Chingri Ghanta', description: 'Malabar Spinach with Prawns' },
-        { name: 'Janhi Aloo Posta', description: 'Ridge Gourd in Poppy Seeds' }
+        { name: 'Macha Besara', description: 'Fish in Mustard Gravy (Rohu, Mrigal, Anchovie)' },
+          { name: 'Doi Macha ', description: 'Fish in Mustard Gravy (Rohu, Mrigal, Anchovie)' },
+            { name: 'Macha Besara', description: 'Fish in Mustard Gravy (Rohu, Mrigal, Anchovie)' },
+              { name: 'fulkobi Machara jhola', description: 'Fish in Mustard Gravy (Rohu, Mrigal, Anchovie)' },
+                { name: 'Shorse Illishi ', description: 'Fish in Mustard Gravy (Rohu, Mrigal, Anchovie)' },
+                  { name: 'Chingri Besara', description: 'Fish in Mustard Gravy (Rohu, Mrigal, Anchovie)' },
+                    { name: 'Chingri Malai Curry', description: 'Fish in Mustard Gravy (Rohu, Mrigal, Anchovie)' },
+                      { name: 'Poi Chingri Ghanta', description: 'Fish in Mustard Gravy (Rohu, Mrigal, Anchovie)' },
+        { name: 'Mutton Kasa', description: 'Hilsa in Mustard' },
+        { name: 'Sukto', description: 'Prawns in Coconut Milk' },
+           { name: 'Janhi Aloo Posta', description: 'Ridge Gourd in Poppy Seeds' },
+        { name: 'Dhokar Dalna ', description: 'Malabar Spinach with Prawns' },
+        { name: 'Chenna Tarkar ', description: 'Malabar Spinach with Prawns' },
+     
       ]
     },
     {
       id: 'chat', title: 'Chat Special', icon: 'fastfood', type: 'list',
       items: [
-        { name: 'Pani Puri / Dahi Puri', description: 'Street Style' },
-        { name: 'Samosa / Aloo Tikki Chat', description: 'Spicy & Tangy' },
-        { name: 'Palak / Churmur Chat', description: 'Crunchy Savory Snacks' }
+        { name: 'Pani Puri', description: 'Street Style' },
+              { name: 'Bhel Puri', description: 'Street Style' },
+                  { name: 'Dahi Puri', description: 'Street Style' },
+                        { name: 'Aloo Papdi Chat', description: 'Street Style' },
+                          { name: 'Palak Chat', description: 'Crunchy Savory Snacks' },
+        { name: 'Samosa Chat', description: 'Spicy & Tangy' },
+              { name: 'Aloo Tikki Chat', description: 'Spicy & Tangy' },
+                    { name: 'Churmur Chat', description: 'Spicy & Tangy' },
+      
       ]
     },
     {
       id: 'dessert', title: 'Desserts', icon: 'icecream', type: 'list',
       items: [
-        { name: 'Rasagulla', description: 'Patali Gurer (Jaggery) Available' },
+            { name: 'Gur Payesh', description: 'Jaggery Rice Pudding' },
+        { name: 'Patali Gurer Rasagulla', description: 'Patali Gurer (Jaggery) Available' },
+                { name: 'Patisapta', description: 'Patali Gurer (Jaggery) Available' },
         { name: 'Chenna Poda', description: 'Burnt Cheese Cake' },
-        { name: 'Gur Payesh', description: 'Jaggery Rice Pudding' },
-        { name: 'Rabdi / Malpua', description: 'Rich Milk Desserts' },
+                { name: 'Khaja', description: 'Burnt Cheese Cake' },
+                       { name: 'FKhiri', description: 'Burnt Cheese Cake' },
+    
+        { name: 'Rabdi ', description: 'Rich Milk Desserts' },
+        { name: 'Malpua', description: 'Rich Milk Desserts' },
         { name: 'Gajar Halwa', description: 'Carrot Pudding' }
       ]
     }

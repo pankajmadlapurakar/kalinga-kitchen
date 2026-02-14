@@ -1,15 +1,38 @@
-import { Injectable, inject } from '@angular/core';
-// import { Firestore, doc, docData } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
-import { DailySpecial } from '../models/special.model';
+import { Injectable, signal } from '@angular/core';
+
+export interface DailySpecial {
+  title: string;
+  description: string;
+  price: number;
+  imageUrl: string;
+  available: boolean;
+}
 
 @Injectable({ providedIn: 'root' })
 export class MenuService {
-  // private firestore = inject(Firestore);
+  private storageKey = 'kalinga_daily_special';
 
-  // getTodaysSpecial(): Observable<DailySpecial> {
-  //   // Fetches the document 'specials/today' from Firestore
-  //   const specialDoc = doc(this.firestore, 'specials/today');
-  //   return docData(specialDoc) as Observable<DailySpecial>;
-  // }
+  private defaultSpecials: DailySpecial[] = [{
+    title: 'Special Mutton Curry',
+    description: 'Slow-cooked goat meat with traditional Odia spices, served with rice.',
+    price: 18.99,
+    imageUrl: 'https://images.unsplash.com/photo-1585937421612-70a008356f36?q=80&w=800',
+    available: true
+  }];
+
+  todaysSpecials = signal<DailySpecial[]>(this.loadSpecials());
+
+  private loadSpecials(): DailySpecial[] {
+    const stored = localStorage.getItem(this.storageKey);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      return Array.isArray(parsed) ? parsed : [parsed];
+    }
+    return this.defaultSpecials;
+  }
+
+  updateSpecials(specials: DailySpecial[]) {
+    this.todaysSpecials.set(specials);
+    localStorage.setItem(this.storageKey, JSON.stringify(specials));
+  }
 }

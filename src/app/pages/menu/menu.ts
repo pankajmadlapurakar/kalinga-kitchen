@@ -43,8 +43,10 @@ export class MenuComponent {
 
   todaysSpecials = this.menuService.todaysSpecials;
   isEditing = signal(false);
-  editingSpecials: DailySpecial[] = [];
+  editingSpecials: any[] = [];
   selectedItem = signal<MenuItem | null>(null);
+  showToast = signal(false);
+  toastMessage = signal('');
 
   scrollTo(id: string) {
     this.scroller.setOffset([0, 180]);
@@ -71,6 +73,8 @@ export class MenuComponent {
       title: 'New Special',
       description: 'Description',
       price: 0,
+      price16: 0,
+      price32: 0,
       imageUrl: '',
       available: true
     });
@@ -93,6 +97,10 @@ export class MenuComponent {
       quantity: 1,
       details: variantLabel || item.pricing?.unit
     });
+
+    this.toastMessage.set(`${item.name} added to cart!`);
+    this.showToast.set(true);
+    setTimeout(() => this.showToast.set(false), 3000);
   }
 
   openSizeModal(item: MenuItem) {
@@ -108,6 +116,17 @@ export class MenuComponent {
     if (item) {
       this.addToCart(item, size, price);
       this.closeSizeModal();
+    }
+  }
+
+  onFileSelected(event: any, special: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        special.imageUrl = e.target.result;
+      };
+      reader.readAsDataURL(file);
     }
   }
 

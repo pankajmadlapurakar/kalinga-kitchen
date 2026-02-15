@@ -3,7 +3,7 @@
 
   <section class="relative h-64 w-full overflow-hidden">
     <div class="absolute inset-0 bg-gradient-to-t from-stone-900/80 via-stone-900/20 to-transparent z-10"></div>
-    <img src="https://images.unsplash.com/photo-1596797038530-2c107229654b?q=80&w=1000" 
+    <img src="assets/chicken65.webp" 
          alt="Indian Spices" 
          class="w-full h-full object-cover">
     
@@ -43,10 +43,25 @@
                 </div>
                 
                 <div class="flex items-center justify-between md:flex-col md:items-end gap-3 mt-3 md:mt-0 min-w-[100px]">
-                  <span class="text-xl font-bold text-stone-800">${{ special.price }}</span>
-                  <button (click)="addToCart({name: special.title, pricing: {price: special.price}})" class="bg-stone-900 text-white px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-primary transition-colors shadow-sm flex items-center gap-2">
-                    Add <span class="material-icons text-sm">add_shopping_cart</span>
-                  </button>
+                  @if ($any(special).price16 || $any(special).price32) {
+                    <div class="flex flex-col gap-2 items-end">
+                      @if ($any(special).price16) {
+                        <button (click)="addToCart({name: special.title}, '16oz', $any(special).price16)" class="bg-stone-900 text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-primary transition-colors shadow-sm whitespace-nowrap">
+                          16oz - ${{ $any(special).price16 }}
+                        </button>
+                      }
+                      @if ($any(special).price32) {
+                        <button (click)="addToCart({name: special.title}, '32oz', $any(special).price32)" class="bg-stone-900 text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-primary transition-colors shadow-sm whitespace-nowrap">
+                          32oz - ${{ $any(special).price32 }}
+                        </button>
+                      }
+                    </div>
+                  } @else {
+                    <span class="text-xl font-bold text-stone-800">${{ special.price }}</span>
+                    <button (click)="addToCart({name: special.title, pricing: {price: special.price}})" class="bg-stone-900 text-white px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-primary transition-colors shadow-sm flex items-center gap-2">
+                      Add <span class="material-icons text-sm">add_shopping_cart</span>
+                    </button>
+                  }
                 </div>
               </div>
             </div>
@@ -135,10 +150,18 @@
                   <textarea [(ngModel)]="special.description" rows="2" class="w-full border border-stone-300 rounded-lg p-2 focus:ring-2 focus:ring-primary outline-none"></textarea>
                 </div>
                 
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-3 gap-4">
                   <div>
-                    <label class="block text-sm font-bold text-stone-700 mb-1">Price ($)</label>
+                    <label class="block text-sm font-bold text-stone-700 mb-1">Base ($)</label>
                     <input type="number" [(ngModel)]="special.price" class="w-full border border-stone-300 rounded-lg p-2 focus:ring-2 focus:ring-primary outline-none">
+                  </div>
+                  <div>
+                    <label class="block text-sm font-bold text-stone-700 mb-1">16oz ($)</label>
+                    <input type="number" [(ngModel)]="special.price16" class="w-full border border-stone-300 rounded-lg p-2 focus:ring-2 focus:ring-primary outline-none">
+                  </div>
+                  <div>
+                    <label class="block text-sm font-bold text-stone-700 mb-1">32oz ($)</label>
+                    <input type="number" [(ngModel)]="special.price32" class="w-full border border-stone-300 rounded-lg p-2 focus:ring-2 focus:ring-primary outline-none">
                   </div>
                   <div class="flex items-center pt-6">
                     <label class="flex items-center gap-2 cursor-pointer select-none">
@@ -149,8 +172,15 @@
                 </div>
 
                 <div>
-                  <label class="block text-sm font-bold text-stone-700 mb-1">Image URL</label>
-                  <input [(ngModel)]="special.imageUrl" class="w-full border border-stone-300 rounded-lg p-2 focus:ring-2 focus:ring-primary outline-none text-sm text-stone-600">
+                  <label class="block text-sm font-bold text-stone-700 mb-1">Image</label>
+                  <div class="flex gap-2 items-center">
+                    <input type="file" (change)="onFileSelected($event, special)" accept="image/*" class="text-sm text-stone-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20">
+                    <span class="text-xs text-stone-400">OR</span>
+                    <input [(ngModel)]="special.imageUrl" placeholder="URL" class="flex-grow border border-stone-300 rounded-lg p-2 focus:ring-2 focus:ring-primary outline-none text-sm text-stone-600">
+                  </div>
+                  @if (special.imageUrl) {
+                    <img [src]="special.imageUrl" class="mt-2 h-20 w-20 object-cover rounded-lg border border-stone-200">
+                  }
                 </div>
               </div>
             </div>
@@ -165,6 +195,14 @@
           </button>
         </div>
       </div>
+    </div>
+  }
+
+  <!-- Success Toast Notification -->
+  @if (showToast()) {
+    <div class="fixed bottom-10 left-1/2 transform -translate-x-1/2 z-[70] bg-stone-900 text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-3 animate-fade-in border border-stone-700">
+      <span class="material-icons text-green-400">check_circle</span>
+      <span class="font-bold text-sm">{{ toastMessage() }}</span>
     </div>
   }
 

@@ -1,10 +1,10 @@
-<nav class="bg-white/95 shadow-lg sticky top-0 z-50">
+<nav class="bg-white shadow-lg sticky top-0 z-50">
   <div class="max-w-7xl mx-auto px-4">
     <div class="flex justify-between items-center h-16">
       <!-- Logo/Brand -->
      <div class="flex items-center cursor-pointer" routerLink="/" (click)="closeMenu()">
         <div class="flex-shrink-0 flex items-center gap-2">
-          <img src="/assets/logo.png" alt="Ipsa's Kalinga Kitchen" class="h-15 w-auto">
+          <img src="/assets/logo.webp" alt="Ipsa's Kalinga Kitchen" class="h-15 w-auto">
         </div>
       </div>
 
@@ -42,7 +42,7 @@
             </span>
           }
         </button>
-        <button (click)="toggleMenu()">
+        <button (click)="toggleMenu()" class="text-[#ee8c2b]">
           <span class="material-icons">{{ isMobileMenuOpen() ? 'close' : 'menu' }}</span>
         </button>
       </div>
@@ -51,15 +51,15 @@
     <!-- Mobile Menu -->
     @if (isMobileMenuOpen()) {
       <div class="md:hidden border-t border-red-800 py-4">
-        <a routerLink="/" (click)="closeMenu()" class="block py-2 hover:text-[#ee8c2b] transition-colors flex items-center gap-2">
+        <a routerLink="/" (click)="closeMenu()" class="block py-2 text-[#ee8c2b] hover:text-[#ee8c2b] transition-colors flex items-center gap-2">
           <span class="material-icons">home</span>
           Home
         </a>
-        <a routerLink="/menu" (click)="closeMenu()" class="block py-2 hover:text-[#ee8c2b] transition-colors flex items-center gap-2">
+        <a routerLink="/menu" (click)="closeMenu()" class="block py-2 text-[#ee8c2b] hover:text-[#ee8c2b] transition-colors flex items-center gap-2">
           <span class="material-icons">restaurant_menu</span>
           Menu
         </a>
-        <a href="tel:571-418-9365" class="block py-2 hover:text-[#ee8c2b] transition-colors flex items-center gap-2">
+        <a href="tel:571-418-9365" class="block py-2 text-[#ee8c2b] hover:text-[#ee8c2b] transition-colors flex items-center gap-2">
           <span class="material-icons">phone</span>
           Call 571-418-9365
         </a>

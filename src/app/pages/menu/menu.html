@@ -262,24 +262,24 @@
         @if (cat.type === 'sized') {
           <div class="bg-white rounded-xl border border-stone-200 shadow-sm overflow-hidden">
             <div class="grid grid-cols-4 bg-stone-100 text-stone-600 text-xs font-bold uppercase tracking-wider border-b border-stone-200">
-              <div class="p-4 col-span-1">Item</div>
-              <div class="p-4 text-center">Small</div>
-              <div class="p-4 text-center bg-stone-200/50">Medium</div>
-              <div class="p-4 text-center">Large</div>
+              <div class="p-2 md:p-4 col-span-1">Item</div>
+              <div class="p-2 md:p-4 text-center">Small</div>
+              <div class="p-2 md:p-4 text-center bg-stone-200/50">Medium</div>
+              <div class="p-2 md:p-4 text-center">Large</div>
             </div>
             
             <div class="divide-y divide-stone-100">
               @for (item of cat.items; track $index) {
                 <div class="grid grid-cols-4 items-center hover:bg-stone-50 transition-colors">
-                  <div class="p-4 col-span-1 font-bold text-stone-700 text-sm flex items-center gap-2">
+                  <div class="p-2 md:p-4 col-span-1 font-bold text-stone-700 text-xs md:text-sm flex flex-col md:flex-row items-start md:items-center gap-1 md:gap-2">
                     {{ item.name }}
                     <button (click)="openSizeModal(item)" class="text-stone-400 hover:text-primary transition-colors" title="Add to Cart">
                       <span class="material-icons text-sm">add_shopping_cart</span>
                     </button>
                   </div>
-                  <div class="p-4 text-center text-stone-500 font-medium">${{ item.pricing?.s }}</div>
-                  <div class="p-4 text-center text-primary font-bold bg-stone-50 border-x border-stone-100 shadow-inner">${{ item.pricing?.m }}</div>
-                  <div class="p-4 text-center text-stone-500 font-medium">${{ item.pricing?.l }}</div>
+                  <div class="p-2 md:p-4 text-center text-stone-500 font-medium text-xs md:text-base">${{ item.pricing?.s }}</div>
+                  <div class="p-2 md:p-4 text-center text-primary font-bold bg-stone-50 border-x border-stone-100 shadow-inner text-xs md:text-base">${{ item.pricing?.m }}</div>
+                  <div class="p-2 md:p-4 text-center text-stone-500 font-medium text-xs md:text-base">${{ item.pricing?.l }}</div>
                 </div>
               }
             </div>

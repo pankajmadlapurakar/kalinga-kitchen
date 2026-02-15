@@ -2,6 +2,8 @@ import { Component, signal, inject } from '@angular/core';
 import { CommonModule, ViewportScroller } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MenuService, DailySpecial } from '../../services/menu';
+import { CartService } from '../../services/cart.service';
+import { Cart } from '../../components/cart/cart';
 
 interface Pricing {
   s?: number; m?: number; l?: number;
@@ -26,7 +28,7 @@ interface MenuCategory {
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, Cart],
   templateUrl: './menu.html',
   styles: [`
     .hide-scrollbar::-webkit-scrollbar { display: none; }
@@ -37,10 +39,12 @@ interface MenuCategory {
 export class MenuComponent {
   private scroller = inject(ViewportScroller);
   private menuService = inject(MenuService);
+  cartService = inject(CartService);
 
   todaysSpecials = this.menuService.todaysSpecials;
   isEditing = signal(false);
   editingSpecials: DailySpecial[] = [];
+  selectedItem = signal<MenuItem | null>(null);
 
   scrollTo(id: string) {
     this.scroller.setOffset([0, 180]);
@@ -79,6 +83,32 @@ export class MenuComponent {
   saveSpecials() {
     this.menuService.updateSpecials(this.editingSpecials);
     this.isEditing.set(false);
+  }
+
+  addToCart(item: MenuItem, variantLabel?: string, variantPrice?: number) {
+    this.cartService.addToCart({
+      id: item.name + (variantLabel ? '-' + variantLabel : ''),
+      name: item.name,
+      price: variantPrice || item.pricing?.price || 0,
+      quantity: 1,
+      details: variantLabel || item.pricing?.unit
+    });
+  }
+
+  openSizeModal(item: MenuItem) {
+    this.selectedItem.set(item);
+  }
+
+  closeSizeModal() {
+    this.selectedItem.set(null);
+  }
+
+  addToCartFromModal(size: string, price: number) {
+    const item = this.selectedItem();
+    if (item) {
+      this.addToCart(item, size, price);
+      this.closeSizeModal();
+    }
   }
 
   // COMPLETE MENU DATA FROM PDF
@@ -187,7 +217,6 @@ export class MenuComponent {
       items: [
         { name: 'Macha Besara', description: 'Fish in Mustard Gravy (Rohu, Mrigal, Anchovie)' },
           { name: 'Doi Macha ', description: 'Fish in Mustard Gravy (Rohu, Mrigal, Anchovie)' },
-            { name: 'Macha Besara', description: 'Fish in Mustard Gravy (Rohu, Mrigal, Anchovie)' },
               { name: 'fulkobi Machara jhola', description: 'Fish in Mustard Gravy (Rohu, Mrigal, Anchovie)' },
                 { name: 'Shorse Illishi ', description: 'Fish in Mustard Gravy (Rohu, Mrigal, Anchovie)' },
                   { name: 'Chingri Besara', description: 'Fish in Mustard Gravy (Rohu, Mrigal, Anchovie)' },

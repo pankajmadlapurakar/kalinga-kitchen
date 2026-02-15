@@ -44,9 +44,9 @@
                 
                 <div class="flex items-center justify-between md:flex-col md:items-end gap-3 mt-3 md:mt-0 min-w-[100px]">
                   <span class="text-xl font-bold text-stone-800">${{ special.price }}</span>
-                  <!-- <button class="bg-stone-900 text-white px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-primary transition-colors shadow-sm">
-                    Add
-                  </button> -->
+                  <button (click)="addToCart({name: special.title, pricing: {price: special.price}})" class="bg-stone-900 text-white px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-primary transition-colors shadow-sm flex items-center gap-2">
+                    Add <span class="material-icons text-sm">add_shopping_cart</span>
+                  </button>
                 </div>
               </div>
             </div>
@@ -63,6 +63,48 @@
       <span class="material-icons">edit</span>
     </button>
   </div>
+
+  <!-- Size Selection Modal -->
+  @if (selectedItem()) {
+    <div class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+      <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden transform transition-all scale-100">
+        <div class="bg-stone-50 p-4 border-b border-stone-100 flex justify-between items-center">
+          <h3 class="font-bold text-lg text-stone-800">{{ selectedItem()?.name }}</h3>
+          <button (click)="closeSizeModal()" class="text-stone-400 hover:text-stone-600 hover:bg-stone-200 rounded-full p-1 transition-colors">
+            <span class="material-icons">close</span>
+          </button>
+        </div>
+        
+        <div class="p-5 space-y-3">
+          <p class="text-sm font-medium text-stone-500 mb-2 uppercase tracking-wider">Select Size</p>
+          
+          @if (selectedItem()?.pricing?.s) {
+            <button (click)="addToCartFromModal('Small', selectedItem()!.pricing!.s!)" 
+                    class="w-full flex justify-between items-center p-4 border border-stone-200 rounded-xl hover:border-primary hover:bg-primary/5 hover:shadow-md transition-all group">
+              <span class="font-bold text-stone-700 group-hover:text-primary">Small (Tray)</span>
+              <span class="font-bold text-stone-900 group-hover:text-primary">${{ selectedItem()!.pricing!.s }}</span>
+            </button>
+          }
+          
+          @if (selectedItem()?.pricing?.m) {
+            <button (click)="addToCartFromModal('Medium', selectedItem()!.pricing!.m!)" 
+                    class="w-full flex justify-between items-center p-4 border border-stone-200 rounded-xl hover:border-primary hover:bg-primary/5 hover:shadow-md transition-all group">
+              <span class="font-bold text-stone-700 group-hover:text-primary">Medium (Tray)</span>
+              <span class="font-bold text-stone-900 group-hover:text-primary">${{ selectedItem()!.pricing!.m }}</span>
+            </button>
+          }
+          
+          @if (selectedItem()?.pricing?.l) {
+            <button (click)="addToCartFromModal('Large', selectedItem()!.pricing!.l!)" 
+                    class="w-full flex justify-between items-center p-4 border border-stone-200 rounded-xl hover:border-primary hover:bg-primary/5 hover:shadow-md transition-all group">
+              <span class="font-bold text-stone-700 group-hover:text-primary">Large (Tray)</span>
+              <span class="font-bold text-stone-900 group-hover:text-primary">${{ selectedItem()!.pricing!.l }}</span>
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+  }
 
   <!-- Edit Form Modal -->
   @if (isEditing()) {
@@ -157,7 +199,7 @@
 
         @if (cat.type === 'piece') {
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            @for (item of cat.items; track item.name) {
+            @for (item of cat.items; track $index) {
               <div class="bg-white border border-stone-200 p-4 rounded-xl flex items-center gap-4 hover:shadow-lg transition-all">
                 <div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 bg-stone-100">
                   <img [src]="item.image || 'assets/placeholder.jpg'" [alt]="item.name" class="w-full h-full object-cover">
@@ -165,9 +207,12 @@
                 <div class="flex-grow">
                   <div class="flex justify-between items-start mb-1">
                     <h3 class="font-bold text-lg text-stone-800 leading-tight">{{ item.name }}</h3>
-                    <span class="bg-primary text-white font-bold px-2 py-1 rounded text-sm whitespace-nowrap shadow-sm">
-                      ${{ item.pricing?.price }}<span class="text-[10px] opacity-80">/{{ item.pricing?.unit }}</span>
-                    </span>
+                    <div class="flex flex-col items-end gap-2">
+                      <span class="bg-primary text-white font-bold px-2 py-1 rounded text-sm whitespace-nowrap shadow-sm">
+                        ${{ item.pricing?.price }}<span class="text-[10px] opacity-80">/{{ item.pricing?.unit }}</span>
+                      </span>
+                      <button (click)="addToCart(item)" class="text-stone-400 hover:text-primary transition-colors" title="Add to Cart"><span class="material-icons">add_shopping_cart</span></button>
+                    </div>
                   </div>
                   <p class="text-xs text-stone-500 line-clamp-2">{{ item.description }}</p>
                 </div>
@@ -186,9 +231,14 @@
             </div>
             
             <div class="divide-y divide-stone-100">
-              @for (item of cat.items; track item.name) {
+              @for (item of cat.items; track $index) {
                 <div class="grid grid-cols-4 items-center hover:bg-stone-50 transition-colors">
-                  <div class="p-4 col-span-1 font-bold text-stone-700 text-sm">{{ item.name }}</div>
+                  <div class="p-4 col-span-1 font-bold text-stone-700 text-sm flex items-center gap-2">
+                    {{ item.name }}
+                    <button (click)="openSizeModal(item)" class="text-stone-400 hover:text-primary transition-colors" title="Add to Cart">
+                      <span class="material-icons text-sm">add_shopping_cart</span>
+                    </button>
+                  </div>
                   <div class="p-4 text-center text-stone-500 font-medium">${{ item.pricing?.s }}</div>
                   <div class="p-4 text-center text-primary font-bold bg-stone-50 border-x border-stone-100 shadow-inner">${{ item.pricing?.m }}</div>
                   <div class="p-4 text-center text-stone-500 font-medium">${{ item.pricing?.l }}</div>
@@ -200,7 +250,7 @@
 
         @if (cat.type === 'list') {
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-            @for (item of cat.items; track item.name) {
+            @for (item of cat.items; track $index) {
               <div class="bg-white p-4 rounded-xl border border-stone-200 flex justify-between items-center shadow-sm hover:border-primary/50 transition-colors">
                 <div>
                   <h4 class="font-bold text-stone-800">{{ item.name }}</h4>

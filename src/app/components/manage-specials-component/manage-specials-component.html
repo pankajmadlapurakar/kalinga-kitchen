@@ -79,6 +79,29 @@
         <input type="text" formControlName="price" placeholder="e.g., $15.99" class="w-full p-2 border rounded focus:ring-[#ee8c2b] focus:border-[#ee8c2b]">
       </div>
 
+      <!-- Image Upload -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Dish Image</label>
+        <div class="flex items-center gap-4">
+          <div *ngIf="specialForm.get('imageUrl')?.value" class="relative w-24 h-24 rounded-lg overflow-hidden border border-gray-200 shrink-0">
+            <img [src]="specialForm.get('imageUrl')?.value" class="w-full h-full object-cover">
+            <button type="button" (click)="specialForm.patchValue({imageUrl: ''})" class="absolute top-0 right-0 bg-red-500 text-white p-1 rounded-bl shadow-sm hover:bg-red-600 transition-colors">
+              <span class="material-icons text-xs">close</span>
+            </button>
+          </div>
+          
+          <div class="flex-1">
+            <input type="file" (change)="onFileSelected($event)" accept="image/*" 
+                   class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#ee8c2b]/10 file:text-[#ee8c2b] hover:file:bg-[#ee8c2b]/20 transition-all cursor-pointer">
+            
+            <div *ngIf="uploadProgress() !== null" class="w-full bg-gray-100 rounded-full h-2 mt-2 overflow-hidden">
+              <div class="bg-[#ee8c2b] h-full transition-all duration-300" [style.width.%]="uploadProgress()"></div>
+            </div>
+          </div>
+        </div>
+        <input type="hidden" formControlName="imageUrl">
+      </div>
+
       <!-- Description -->
       <div>
         <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>

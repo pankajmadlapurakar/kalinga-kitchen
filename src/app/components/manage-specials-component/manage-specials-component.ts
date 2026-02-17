@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SpecialsService, Special } from '../../services/specials-service';
 import { Auth, signInWithEmailAndPassword, signOut, authState } from '@angular/fire/auth';
+import { Storage, ref, uploadBytesResumable, getDownloadURL } from '@angular/fire/storage';
 
 @Component({
   selector: 'app-manage-specials',
@@ -15,6 +16,7 @@ export class ManageSpecialsComponent {
   private fb = inject(FormBuilder);
   private specialsService = inject(SpecialsService);
   private auth = inject(Auth);
+  private storage = inject(Storage);
 
   currentUser = toSignal(authState(this.auth), { initialValue: null });
   loginError = signal('');
@@ -26,13 +28,15 @@ export class ManageSpecialsComponent {
     password: ['', Validators.required]
   });
 
+  uploadProgress = signal<number | null>(null);
   editingId = signal<string | null>(null);
   specialForm: FormGroup = this.fb.group({
     title: ['', Validators.required],
     description: ['', Validators.required],
     price: [0, [Validators.required, Validators.min(0)]],
     date: [new Date().toISOString().split('T')[0], Validators.required],
-    type: ['daily', Validators.required]
+    type: ['daily', Validators.required],
+    imageUrl: ['']
   });
 
   async login() {
@@ -81,9 +85,34 @@ export class ManageSpecialsComponent {
     if (confirm('Delete this special?')) this.specialsService.deleteSpecial(id);
   }
 
+  async onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const filePath = `specials/${Date.now()}_${file.name}`;
+    const storageRef = ref(this.storage, filePath);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on('state_changed',
+      (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        this.uploadProgress.set(progress);
+      },
+      (error) => {
+        console.error('Upload failed', error);
+        this.uploadProgress.set(null);
+      },
+      async () => {
+        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+        this.specialForm.patchValue({ imageUrl: downloadURL });
+        this.uploadProgress.set(null);
+      }
+    );
+  }
+
   cancelEdit() {
     this.editingId.set(null);
-    this.specialForm.reset({ type: 'daily', date: new Date().toISOString().split('T')[0], price: 0 });
+    this.specialForm.reset({ type: 'daily', date: new Date().toISOString().split('T')[0], price: 0, imageUrl: '' });
   }
 
   isDaily(special: Special): boolean {

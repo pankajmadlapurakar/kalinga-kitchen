@@ -141,7 +141,7 @@ export class MenuComponent {
         { name: 'Chilli Paneer', pricing: { s: 60, m: 100, l: 140 } },
         { name: 'Chilli Mushroom', pricing: { s: 60, m: 100, l: 140 } },
         { name: 'Gobi Manchurian', pricing: { s: 50, m: 90, l: 130 } },
-        { name: 'Veggie Noodles', pricing: { s: 50, m: 80, l: 120 } },
+        { name: 'Veggie Noodle', pricing: { s: 50, m: 80, l: 120 } },
         { name: 'Chicken Noodles', pricing: { s: 50, m: 80, l: 120 } },
         { name: 'Chicken Pakoda', pricing: { s: 60, m: 100, l: 140 } },
         { name: 'Veggie Pakoda', pricing: { s: 40, m: 60, l: 90 } },
@@ -160,9 +160,10 @@ export class MenuComponent {
         { name: 'Mutton Chop', pricing: { price: 7, unit: '2 pcs' }, image: 'assets/mutton-chop.webp', description: 'Spiced minced mutton' },
         { name: 'Chicken Cutlets', pricing: { price: 6, unit: '3 pcs' }, image: 'assets/chicken-cutlets.webp' },
         { name: 'Chicken 65 Puffs', pricing: { price: 5, unit: '2 pcs' }, image: 'assets/chicken-65-puffs.webp' },
-        { name: 'Fish Cutlets', pricing: { price: 5, unit: '5 pcs' }, image: 'assets/fish-cutlets.webp' },
-        { name: 'Urad dal Vada', pricing: { price: 10, unit: '10 pcs' }, image: 'assets/urad-dal-vada.webp' },
+        { name: 'Fish Cutlets', pricing: { price: 6, unit: '3 pcs' }, image: 'assets/fish-cutlets.webp' },
+        { name: 'Urad dal Vada', pricing: { price: 5, unit: '5 pcs' }, image: 'assets/urad-dal-vada.webp' },
         { name: 'Masala Vada', pricing: { price: 5, unit: '5 pcs' }, image: 'assets/masala-vada.webp' },
+        { name: 'Vadapav', pricing: { price: 5, unit: '2 pcs' }, image: 'assets/vadapav.webp' },
         { name: 'Dahi Vada', pricing: { price: 5, unit: '5 pcs' }, image: 'assets/dahi-vada.webp' },
       { name: 'Chicken Momo', pricing: { price: 10, unit: '10 pcs' }, image: 'assets/chicken-momo.webp' }
       ]
@@ -179,9 +180,10 @@ export class MenuComponent {
         { name: 'Chole', pricing: { s: 50, m: 80, l: 110 } },
         { name: 'Ghanta Tarkari', pricing: { s: 60, m: 100, l: 140 } },
         { name: 'Dal Makhni', pricing: { s: 50, m: 80, l: 120 } },
+                { name: 'Dal Tadka', pricing: { s: 50, m: 80, l: 120 } },
         { name: 'Aloo Dum', pricing: { s: 50, m: 80, l: 120 } },
         { name: 'Butter Paneer', pricing: { s: 60, m: 100, l: 140 } },
-        { name: 'utter Paneer', pricing: { s: 60, m: 100, l: 140 } },
+        { name: 'Mutter Paneer', pricing: { s: 60, m: 100, l: 140 } },
         { name: 'Palak Paneer', pricing: { s: 60, m: 100, l: 140 } }
       ]
     },
@@ -246,7 +248,7 @@ export class MenuComponent {
         { name: 'Sukto', description: 'Prawns in Coconut Milk' },
            { name: 'Janhi Aloo Posta', description: 'Ridge Gourd in Poppy Seeds' },
         { name: 'Dhokar Dalna ', description: 'Malabar Spinach with Prawns' },
-        { name: 'Chenna Tarkar ', description: 'Malabar Spinach with Prawns' },
+        { name: 'Chenna Tarkari ', description: 'Malabar Spinach with Prawns' },
      
       ]
     },

@@ -16,7 +16,8 @@
   </section>
 
   <!-- Today's Special Section -->
-  @if (todaysSpecials().length > 0) {
+   <app-todays-specials></app-todays-specials>
+  <!-- @if (todaysSpecials().length > 0) {
     <section class="max-w-3xl mx-auto px-4 mt-12 mb-12">
       <div class="text-center mb-10">
         <span class="text-primary font-bold tracking-widest text-xs uppercase mb-2 block">Fresh from Kitchen</span>
@@ -28,7 +29,7 @@
         @if (special.available) {
           <div class="group bg-white rounded-xl p-4 md:p-6 shadow-sm border border-stone-100 hover:shadow-md hover:border-primary/20 transition-all flex gap-4 md:gap-6 items-start">
             
-            <!-- Number -->
+          
             <div class="flex-shrink-0 select-none">
               <span class="block text-4xl md:text-5xl font-black text-stone-200 group-hover:text-primary/20 transition-colors font-serif leading-none -mt-1">
                 {{ i + 1 < 10 ? '0' + (i + 1) : (i + 1) }}
@@ -70,7 +71,7 @@
       }
       </div>
     </section>
-  }
+  } -->
 
   <!-- Admin Trigger (Bottom Right) -->
   <div class="fixed bottom-4 right-4 z-50 opacity-50 hover:opacity-100 transition-opacity">

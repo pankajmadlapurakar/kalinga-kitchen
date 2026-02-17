@@ -17,7 +17,7 @@ export class Cart {
   customerPhone = '';
   customerAddress = '';
   
-  readonly businessNumber = '918830759329'; 
+  readonly businessNumber = '15714189365'; 
 
   isValid() {
     return this.customerName.trim() !== '' && 

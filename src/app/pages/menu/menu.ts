@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { MenuService, DailySpecial } from '../../services/menu';
 import { CartService } from '../../services/cart.service';
 import { Cart } from '../../components/cart/cart';
+import { TodaysSpecialsComponent } from "../../components/home/todays-special/todays-special";
 
 interface Pricing {
   s?: number; m?: number; l?: number;
@@ -28,7 +29,7 @@ interface MenuCategory {
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [CommonModule, FormsModule, Cart],
+  imports: [CommonModule, FormsModule, Cart, TodaysSpecialsComponent],
   templateUrl: './menu.html',
   styles: [`
     .hide-scrollbar::-webkit-scrollbar { display: none; }

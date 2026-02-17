@@ -25,7 +25,13 @@
               class="w-8 h-8 flex items-center justify-center bg-white shadow rounded text-gray-600 hover:bg-gray-100 transition-colors">
               <span class="material-icons text-sm">remove</span>
             </button>
-            <span class="font-semibold w-6 text-center">{{ item.quantity }}</span>
+            <input 
+              type="number" 
+              [ngModel]="item.quantity" 
+              (change)="cartService.updateQuantity(item.id, +$any($event.target).value)"
+              class="w-12 text-center font-semibold bg-transparent border-b border-transparent focus:border-[#ee8c2b] focus:outline-none p-0 appearance-none [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none"
+              min="1"
+            >
             <button 
               (click)="cartService.updateQuantity(item.id, item.quantity + 1)" 
               class="w-8 h-8 flex items-center justify-center bg-white shadow rounded text-[#ee8c2b] hover:bg-orange-50 transition-colors">

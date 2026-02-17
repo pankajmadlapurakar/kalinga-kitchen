@@ -1,0 +1,16 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Match the collection name used in your SpecialsService (e.g., 'specials')
+    match /specials/{specialId} {
+      // Allow anyone to read the specials (public access)
+      allow read: if true;
+      
+      // Only allow write access if the user is logged in AND has the specific admin email
+      // Replace 'admin@kalinga.com' with your actual admin email address
+      allow write: if request.auth != null && request.auth.token.email == 'admin@kalinga.com';
+    }
+    
+  }
+}

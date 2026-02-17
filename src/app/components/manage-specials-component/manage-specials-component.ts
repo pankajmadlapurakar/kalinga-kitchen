@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SpecialsService, Special } from '../../services/specials-service';
+import { Auth, signInWithEmailAndPassword, signOut, authState } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-manage-specials',
@@ -13,10 +14,18 @@ import { SpecialsService, Special } from '../../services/specials-service';
 export class ManageSpecialsComponent {
   private fb = inject(FormBuilder);
   private specialsService = inject(SpecialsService);
+  private auth = inject(Auth);
 
+  currentUser = toSignal(authState(this.auth), { initialValue: null });
+  loginError = signal('');
 
   specials = toSignal(this.specialsService.getUpcomingSpecials(), { initialValue: [] });
   
+  loginForm = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', Validators.required]
+  });
+
   editingId = signal<string | null>(null);
   specialForm: FormGroup = this.fb.group({
     title: ['', Validators.required],
@@ -25,6 +34,21 @@ export class ManageSpecialsComponent {
     date: [new Date().toISOString().split('T')[0], Validators.required],
     type: ['daily', Validators.required]
   });
+
+  async login() {
+    if (this.loginForm.invalid) return;
+    const { email, password } = this.loginForm.value;
+    try {
+      await signInWithEmailAndPassword(this.auth, email!, password!);
+      this.loginError.set('');
+    } catch (err) {
+      this.loginError.set('Invalid email or password');
+    }
+  }
+
+  logout() {
+    signOut(this.auth);
+  }
 
   onSubmit() {
     if (this.specialForm.invalid) return;
@@ -43,8 +67,9 @@ export class ManageSpecialsComponent {
     
     // Convert Firestore Timestamp to YYYY-MM-DD for input[type="date"]
     let dateStr = special.date;
-    if (special.date && typeof (special.date as any).toDate === 'function') {
-      dateStr = (special.date as any).toDate().toISOString().split('T')[0];
+    if (special.date) {
+      const d = (special.date as any).toDate ? (special.date as any).toDate() : new Date(special.date);
+      if (!isNaN(d.getTime())) dateStr = d.toISOString().split('T')[0];
     }
 
     this.specialForm.patchValue({ ...special, date: dateStr });

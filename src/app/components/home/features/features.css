@@ -1,0 +1,88 @@
+.about-container {
+  display: flex;
+  justify-content: center;
+  padding: 50px 20px;
+  background-color: #F5F3ED;
+}
+
+.about-content {
+  display: flex;
+  justify-content: space-around;
+  gap: 50px;
+  flex-wrap: wrap;
+  max-width: 1000px;
+  width: 100%;
+}
+
+.about-column {
+  max-width: 400px;
+  text-align: center;
+  position: relative; /* Needed for positioning images */
+}
+
+h3 {
+  font-family: 'Playfair Display', serif;
+  color: #4A3728;
+  font-size: 2.2rem;
+}
+
+p {
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+/*
+  To add the floating images mentioned in your design,
+  you can use code like this. Uncomment the <img> tags
+  in the HTML file and adjust the paths and positioning.
+*/
+.spice-image {
+  position: absolute;
+  width: 80px;
+  height: auto;
+  opacity: 0.4;
+  z-index: 0;
+  pointer-events: none; /* Make sure images are not clickable */
+}
+
+.spice-image-1 {
+  top: -25px;
+  left: -35px;
+  transform: rotate(-15deg);
+}
+
+.spice-image-2 {
+  bottom: -20px;
+  right: -30px;
+  transform: rotate(15deg);
+}
+.services-container {
+  padding: 50px 20px;
+  text-align: center;
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  color: #4A3728;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.services-box {
+  border: 2px solid #FFA500; /* orange */
+  border-radius: 50px;
+  display: inline-block;
+  padding: 20px 40px;
+  margin: 20px 0;
+  background-color: #fff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.services-box p {
+  margin: 0;
+  font-weight: bold;
+  color: #555;
+  font-family: 'Lato', sans-serif;
+  letter-spacing: 1px;
+  font-size: 0.9rem;
+}

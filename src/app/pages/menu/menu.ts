@@ -141,12 +141,13 @@ export class MenuComponent {
         { name: 'Chilli Paneer', pricing: { s: 60, m: 100, l: 140 } },
         { name: 'Chilli Mushroom', pricing: { s: 60, m: 100, l: 140 } },
         { name: 'Gobi Manchurian', pricing: { s: 50, m: 90, l: 130 } },
-        { name: 'Veggie Noodle', pricing: { s: 50, m: 80, l: 120 } },
-        { name: 'Chicken Noodles', pricing: { s: 50, m: 80, l: 120 } },
+        { name: 'Veggie Noodle', pricing: { s: 50, m: 80, l: 130 } },
+        { name: 'Chicken Noodles', pricing: { s: 50, m: 80, l: 130 } },
         { name: 'Chicken Pakoda', pricing: { s: 60, m: 100, l: 140 } },
-        { name: 'Veggie Pakoda', pricing: { s: 40, m: 60, l: 90 } },
+        { name: 'Veggie Pakoda', pricing: { s: 50, m: 90, l:130 } },
         { name: 'Punugulu', pricing: { s: 50, m: 90, l: 130 } },
-        { name: 'Chilli Babycorn', pricing: { s: 50, m: 90, l: 130 } }
+      { name: 'Chilli Jackfruit', pricing: { s: 60, m: 100, l: 140 }},
+        { name: 'Chilli Babycorn', pricing: { s: 60, m: 100, l: 140 } }
       ]
     },
     {

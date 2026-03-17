@@ -29,7 +29,7 @@
               type="number" 
               [ngModel]="item.quantity" 
               (change)="cartService.updateQuantity(item.id, +$any($event.target).value)"
-              class="w-12 text-center font-semibold bg-transparent border-b border-transparent focus:border-[#ee8c2b] focus:outline-none p-0 appearance-none [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none"
+            class="w-12 text-center font-semibold text-[#8B0000] bg-transparent border-b border-transparent focus:border-[#ee8c2b] focus:outline-none p-0 appearance-none [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none"
               min="1"
             >
             <button 
@@ -57,21 +57,21 @@
         type="text" 
         [(ngModel)]="customerName" 
         placeholder="Your Name *" 
-        class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-[#ee8c2b] focus:ring-1 focus:ring-[#ee8c2b]" 
+        class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-[#ee8c2b] focus:ring-1 focus:ring-[#ee8c2b] placeholder-black" 
       />
       
       <input 
         type="tel" 
         [(ngModel)]="customerPhone" 
         placeholder="Phone Number *" 
-        class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-[#ee8c2b] focus:ring-1 focus:ring-[#ee8c2b]" 
+        class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-[#ee8c2b] focus:ring-1 focus:ring-[#ee8c2b] placeholder-black" 
       />
       
       <textarea 
         [(ngModel)]="customerAddress" 
         placeholder="Delivery Address & Notes" 
         rows="3"
-        class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-[#ee8c2b] focus:ring-1 focus:ring-[#ee8c2b]"
+        class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-[#ee8c2b] focus:ring-1 focus:ring-[#ee8c2b] placeholder-black"
       ></textarea>
     </div>
 

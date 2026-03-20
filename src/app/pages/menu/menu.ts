@@ -275,7 +275,7 @@ export class MenuComponent {
                 { name: 'Patisapta', description: 'Patali Gurer (Jaggery) Available' },
         { name: 'Chenna Poda', description: 'Burnt Cheese Cake' },
                 { name: 'Khaja', description: 'Burnt Cheese Cake' },
-                       { name: 'FKhiri', description: 'Burnt Cheese Cake' },
+                       { name: 'Khiri', description: 'Burnt Cheese Cake' },
     
         { name: 'Rabdi ', description: 'Rich Milk Desserts' },
         { name: 'Malpua', description: 'Rich Milk Desserts' },
